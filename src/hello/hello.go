@@ -21,4 +21,15 @@ func main() {
 	fmt.Scan(&comando)
 	fmt.Println("O endereço da minha variavel comendo é", &comando)
 	fmt.Println("O comando escolhido foi:", comando)
+
+	if comando == 1 {
+		fmt.Print("Monitorando")
+	} else if comando == 2 {
+		fmt.Print("Exibindo logs")
+	} else if comando == 0 {
+		fmt.Print("Saindo do programa")
+	} else {
+		fmt.Print("Não conheço esse comando")
+	}
+
 }
