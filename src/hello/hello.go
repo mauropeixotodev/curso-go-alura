@@ -2,34 +2,73 @@ package main
 
 import (
 	"fmt"
-	"reflect"
+	"net/http"
+	"os"
 )
 
 func main() {
+	exibeIntroducao()
+	for {
 
+		exibeMenu()
+
+		_, idade := retornaNomeEIdade()
+		fmt.Println("E tenho a idade: ", idade, "anos")
+
+		comando := leComando()
+
+		switch comando {
+		case 1:
+			iniciarMonitoramento()
+		case 2:
+			fmt.Println("Exibindo Logs...")
+		case 0:
+			fmt.Println("Saindo do programa...")
+			os.Exit(0)
+		default:
+			fmt.Println("Não conheço este comando")
+			os.Exit(-1)
+		}
+	}
+
+}
+
+func exibeIntroducao() {
 	nome := "Mauro"
-	idade := 21
 	versao := 1.1
-	fmt.Println("Ola, sr.", nome, "Sua idade e", idade)
-	fmt.Println("A versao desse software e", versao)
-	fmt.Println("o tipo da variavel e:", reflect.TypeOf(nome))
+	fmt.Println("Olá, sr(a).", nome)
+	fmt.Println("Este programa está na versão", versao)
+}
 
+func exibeMenu() {
 	fmt.Println("1- Iniciar Monitoramento")
 	fmt.Println("2- Exibir Logs")
 	fmt.Println("0- Sair do Programa")
-	var comando int
-	fmt.Scan(&comando)
-	fmt.Println("O endereço da minha variavel comendo é", &comando)
-	fmt.Println("O comando escolhido foi:", comando)
+}
 
-	if comando == 1 {
-		fmt.Print("Monitorando")
-	} else if comando == 2 {
-		fmt.Print("Exibindo logs")
-	} else if comando == 0 {
-		fmt.Print("Saindo do programa")
+func leComando() int {
+	var comandoLido int
+	fmt.Scan(&comandoLido)
+	fmt.Println("O comando escolhido foi:", comandoLido)
+
+	return comandoLido
+}
+
+func retornaNomeEIdade() (string, int) {
+	nome := "Mauro"
+	idade := 21
+	return nome, idade
+}
+
+func iniciarMonitoramento() {
+	fmt.Println("Monitorando...")
+	// site com URL inexistente
+	site := "https://httpbin.org/status/404" // ou 200
+	resp, _ := http.Get(site)
+
+	if resp.StatusCode == 200 {
+		fmt.Println("Site:", site, "foi carregado com sucesso!")
 	} else {
-		fmt.Print("Não conheço esse comando")
+		fmt.Println("Site:", site, "está com problemas. Status Code:", resp.StatusCode)
 	}
-
 }
